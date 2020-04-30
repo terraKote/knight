@@ -9,6 +9,17 @@ Knight是一个基于Unity引擎的游戏GamePlay框架，提供一些简单易�
 本框架将会持续更新，后期会不断修改和完善框架中的内容。目前使用的Unity版本为Unity2019.1.2f1。
 目前Master分支中将所有的模块全部移到Packages里面去了，并使用PackageManager来管理他们，以实现使用时可随时插拔。
 ![knight的框架结构](https://github.com/winddyhe/knight/blob/master/Doc/res/images/img_1.png)
+
+### Map Road 关于新的框架结构建设 (2020/5/1)
+现在本框架承载一个项目的制作过了中期，过程中发现了一些结构设计上的问题，综合现状和将来考虑寻找一个最优的结构设计的解决方案，在节省制作成本的同时，对性能和效率的要求也需要很高，因此本框架需要重新对每个模块做重新设计。包含的内容如下：
+* 去掉全逻辑的热更新，改为在逻辑DLL中静态注入IL回调，同时使用ILRuntime的热更新能力实现修改所有函数+变量的BUG。
+* UI模块重构，把反射逆向绑定数据这一套东西做成代码生成的模式。
+* UI模块重构，去掉全局的ViewModel结构，一个系统只能有自己的ViewModel对象。同时强行定义Account Model数据类，全局一个树形结构的数据。
+* UI模块功能扩展，实现List嵌套List的数据绑定功能，实现ViewModel中嵌套ViewModel的绑定功能。
+* UI模块重构，新增List控件。
+* 网络模块，增加接收消息队列的功能。
+* 构建Dots的角色动画系统。
+
 ### 更新日志（2019/5/13）
 * 更新Unity版本到Unity2019.1.0f2。
 * UI模块重构，ViewModel可以在UI模块间复用，纯数据信息在全局任意地方通过ViewModelManager访问。
