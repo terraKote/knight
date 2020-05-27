@@ -11,7 +11,6 @@ namespace Game
         {
             HotfixApp_ILRT.OnHotfixRegisterFunc = (rApp) => 
             {
-                rApp.DelegateManager.RegisterMethodDelegate<Knight.Framework.Net.AChannel, System.Int32>();
             };
         }
     }
