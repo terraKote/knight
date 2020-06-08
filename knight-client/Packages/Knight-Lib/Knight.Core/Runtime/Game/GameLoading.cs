@@ -39,27 +39,32 @@ namespace Knight.Core
         /// </summary>
         public void StartLoading(float rIntervalTime, string rTextTips = "")
         {
-            this.LoadingView.ShowLoading(rIntervalTime, rTextTips);
+            if (this.LoadingView != null)
+                this.LoadingView.ShowLoading(rIntervalTime, rTextTips);
         }
 
         public void StartLoading(string rTextTips = "")
         {
-            this.LoadingView.ShowLoading(rTextTips);
+            if (this.LoadingView != null)
+                this.LoadingView.ShowLoading(rTextTips);
         }
 
         public void SetTips(string rTextTips)
         {
-            this.LoadingView.SetTips(rTextTips);
+            if (this.LoadingView != null)
+                this.LoadingView.SetTips(rTextTips);
         }
 
         public void SetLoadingProgress(float fProgressValue)
         {
-            this.LoadingView.SetLoadingProgress(fProgressValue);
+            if (this.LoadingView != null)
+                this.LoadingView.SetLoadingProgress(fProgressValue);
         }
         
         public void Hide()
         {
-            this.LoadingView.HideLoading();
+            if (this.LoadingView != null)
+                this.LoadingView.HideLoading();
         }
     }
 }

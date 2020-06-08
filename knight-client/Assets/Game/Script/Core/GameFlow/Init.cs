@@ -50,7 +50,6 @@ namespace Game
             await Start_Async();
         }
 
-
         private async Task Start_Async()
         {
             // 平台初始化
@@ -70,9 +69,17 @@ namespace Game
             await HotfixManager.Instance.Load(this.HotfixABPath, this.HotfixModule);
 
             // 开始热更新端的游戏主逻辑
-            await HotfixGameMainLogic.Instance.Initialize();
+            //await HotfixGameMainLogic.Instance.Initialize();
+
+            // 热更新测试代码
+            this.HotfixTest();
 
             Debug.Log("End init..");
+        }
+
+        private void HotfixTest()
+        {
+            Test1.TestA();
         }
     }
 }

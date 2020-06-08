@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 511153964}
   - component: {fileID: 511153963}
   - component: {fileID: 511153962}
-  - component: {fileID: 511153966}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -214,20 +213,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &511153966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511153961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2de7d16e06d0ad41b7f52ce7afe4d9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HotfixABPath: game/hotfix/libs.ab
-  HotfixModule: KnightHotfix
 --- !u!1 &574821205
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,9 +256,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 574821205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 018feef9368042742bcba5dc05ec5c2d, type: 3}
+  m_Script: {fileID: 11500000, guid: d2de7d16e06d0ad41b7f52ce7afe4d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HotfixABPath: game/hotfix/libs.ab
+  HotfixModule: KnightHotfix
 --- !u!114 &574821210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,3 +307,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainLogicScript: Game.GameLogicManager
+--- !u!1 &1982891626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1982891627}
+  - component: {fileID: 1982891628}
+  m_Layer: 0
+  m_Name: UIRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1982891627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982891626}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982891628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982891626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 018feef9368042742bcba5dc05ec5c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

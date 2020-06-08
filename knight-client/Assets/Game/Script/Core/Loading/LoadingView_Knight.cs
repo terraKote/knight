@@ -35,12 +35,14 @@ namespace Game
 
         public void SetTips(string rTips)
         {
-            this.TextTips.text = rTips;
+            if (this.TextTips)
+                this.TextTips.text = rTips;
         }
 
         public void SetLoadingProgress(float rValue)
         {
-            this.LoadingBar.value = rValue;
+            if (this.LoadingBar)
+                this.LoadingBar.value = rValue;
         }
         
         /// <summary>
