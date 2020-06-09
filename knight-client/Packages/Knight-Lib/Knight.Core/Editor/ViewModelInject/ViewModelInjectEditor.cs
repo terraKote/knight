@@ -12,9 +12,7 @@ namespace Knight.Core.Editor
     public class ViewModelInjectEditor
     {
         private static string           mDLLPath    = "Library/ScriptAssemblies/Game.Hotfix.dll";
-
-        private static TypeReference    mObjType    = null;
-
+        
         [MenuItem("Tools/Other/ViewModel Injector")]
         public static void Inject()
         {
