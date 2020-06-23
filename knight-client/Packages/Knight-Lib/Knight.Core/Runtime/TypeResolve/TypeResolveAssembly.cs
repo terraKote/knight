@@ -13,6 +13,7 @@ namespace Knight.Core
         object Instantiate(string rTypeName, params object[] rArgs);
         T Instantiate<T>(string rTypeName, params object[] rArgs);
         object Invoke(object rObj, string rTypeName, string rMethodName, params object[] rArgs);
+        object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs);
     }
 
     public abstract class TypeResolveAssembly
@@ -46,6 +47,11 @@ namespace Knight.Core
         }
 
         public virtual object Invoke(object rObj, string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            return null;
+        }
+
+        public virtual object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
         {
             return null;
         }
@@ -102,6 +108,16 @@ namespace Knight.Core
 
             return rType.InvokeMember(rMethodName, ReflectionAssist.flags_method_inst, null, rObj, rArgs);
         }
+
+        public override object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            if (this.mAssembly == null) return null;
+
+            var rType = this.mAssembly.GetType(rTypeName);
+            if (rType == null) return null;
+
+            return rType.InvokeMember(rMethodName, ReflectionAssist.flags_method_static, null, null, rArgs);
+        }
     }
 
     public class TypeResolveAssembly_Hotfix : TypeResolveAssembly
@@ -147,6 +163,12 @@ namespace Knight.Core
         {
             if (this.Proxy == null) return null;
             return this.Proxy.Invoke(rObj, rTypeName, rMethodName, rArgs);
+        }
+
+        public override object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            if (this.Proxy == null) return null;
+            return this.Proxy.InvokeStatic(rTypeName, rMethodName, rArgs);
         }
     }
 }

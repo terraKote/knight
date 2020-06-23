@@ -10,4 +10,12 @@ namespace Knight.Core
     public class HotfixAttribute : Attribute
     {
     }
+
+    public class HotfixInject
+    {
+        public static object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            return TypeResolveManager.Instance.InvokeStatic(rTypeName, rMethodName, rArgs);
+        }
+    }
 }

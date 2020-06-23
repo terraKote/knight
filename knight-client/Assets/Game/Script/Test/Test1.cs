@@ -10,24 +10,24 @@ namespace Game
     {
         public static bool __hotfix_Game_Test1_TestA_Enable__ = false;
 
-        public static void TestA()
+        public static void TestA() 
         {
-            if (__hotfix_Game_Test1_TestA_Enable__)
+            if (__hotfix_Game_Test1_TestA_Enable__) 
             {
-                Knight.Framework.Hotfix.HotfixManager.Instance.InvokeStatic("Game.Hotfix.Test1", "TestA");
+                HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA"); 
                 return;
-            }
-            Debug.LogError("I am TestA func");
+            } 
+            Debug.LogError("I am TestA func");  
         }
 
-        public static void TestA(int p1)
+        public void TestB(int p1)
         {
             if (__hotfix_Game_Test1_TestA_Enable__)
             {
-                Knight.Framework.Hotfix.HotfixManager.Instance.InvokeStatic("Game.Hotfix.Test1", "TestA");
+                HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA", this, p1);
                 return; 
             }
-            Debug.LogError("I am TestA func");
+            Debug.LogError("I am TestA func");  
         }
     }
 }

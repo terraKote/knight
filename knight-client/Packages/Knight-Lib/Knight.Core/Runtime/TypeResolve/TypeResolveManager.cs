@@ -131,6 +131,15 @@ namespace Knight.Core
             return rAssembly.Instantiate<T>(rTypeName, rArgs);
         }
 
+        public object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            TypeResolveAssembly rAssembly = null;
+            var rType = this.GetType(rTypeName, out rAssembly);
+            if (rType == null) return null;
+
+            return rAssembly.InvokeStatic(rTypeName, rMethodName, rArgs);
+        }
+
 #if UNITY_EDITOR
         [UnityEditor.Callbacks.DidReloadScripts]
         public static void ScriptsReloaded()

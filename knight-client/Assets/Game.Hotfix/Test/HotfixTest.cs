@@ -6,7 +6,7 @@ namespace Game.Hotfix
 {
     public class Test1
     {
-        public static void TestA(Test1 rTest1)
+        public static void TestA()
         {
             Debug.LogError("HHHHHotfix Test1 TestA func...");
         }

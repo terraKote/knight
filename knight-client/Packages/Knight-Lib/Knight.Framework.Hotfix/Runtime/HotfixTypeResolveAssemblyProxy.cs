@@ -55,5 +55,10 @@ namespace Knight.Framework.Hotfix
         {
             return HotfixManager.Instance.Invoke(rObj, rTypeName, rMethodName, rArgs);
         }
+
+        public object InvokeStatic(string rTypeName, string rMethodName, params object[] rArgs)
+        {
+            return HotfixManager.Instance.InvokeStatic(rTypeName, rMethodName, rArgs);
+        }
     }
 }

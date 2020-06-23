@@ -3,15 +3,11 @@
     "references": [
         "Core",
         "Framework.AssetBundle",
-        "Framework.Graphics",
         "Framework.Hotfix",
         "Framework.Input",
-        "Framework.Network",
         "Framework.Tweening",
-        "Framework.UI",
         "Game"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -20,5 +16,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

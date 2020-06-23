@@ -33,11 +33,5 @@ namespace Knight.Framework.Hotfix
             // 加载Hotfix端的代码
             await (HotfixManager.Instance.Invoke(this.MainLogicHotfixObj, "Initialize") as Task);
         }
-
-        void Update()
-        {
-            if (this.MainLogicHotfixObj == null) return;
-            HotfixManager.Instance.Invoke(this.MainLogicHotfixObj, "Update");
-        }
     }
 }
