@@ -79,7 +79,7 @@ namespace Game
 
         private void HotfixTest()
         {
-            Test1.TestA();
+            TestManager.Test();
         }
     }
 }

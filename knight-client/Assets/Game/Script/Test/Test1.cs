@@ -8,32 +8,29 @@ namespace Game
     [Hotfix]
     public class Test1
     {
-        public static bool __hotfix_Game_Test1_TestA_Enable__ = false;
+        public float P;
 
         public static void TestA() 
         {
-            if (__hotfix_Game_Test1_TestA_Enable__)
-            {
-                HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA"); 
-                return;
-            } 
             Debug.LogError("I am TestA func");
+        }
+
+        public static void TestA(float p1)
+        {
+            Debug.LogError($"I am TestA [arg0:{p1}] func"); 
         }
 
         [HotfixIgnore]
-        public static void TestA(float p1)
+        public static void TestIgnore()
         {
-            Debug.LogError("I am TestA [arg0:p1] func"); 
+            Debug.LogError("I am TestIgnore func");
         }
 
-        public void TestB(int p1)
+        public void TestB(int p1, float p2)
         {
-            if (__hotfix_Game_Test1_TestA_Enable__)
-            {
-                HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA", this, p1);
-                return; 
-            }
-            Debug.LogError("I am TestA func");
+            Debug.LogError($"I am TestA [arg0:{p1}] [arg1:{p2}] func");
+            this.P = p1 + p2;
+            Debug.LogError("TestB result: " + this.P);
         }
     }
 }
