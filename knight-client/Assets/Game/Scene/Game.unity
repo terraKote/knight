@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c41be6df1c2684e85a0ac1a957a79c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainLogicScript: Game.GameLogicInjector
+  MainLogicScript: Knight.Hotfix.Core.GameLogicInjector
 --- !u!1 &1982891626
 GameObject:
   m_ObjectHideFlags: 0

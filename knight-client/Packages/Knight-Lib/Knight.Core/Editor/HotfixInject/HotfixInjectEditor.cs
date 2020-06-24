@@ -52,19 +52,34 @@ namespace Knight.Core.Editor
             if (rNeedInjectType == null) return;
 
             var rAllMethodList = new List<MethodDefinition>(rNeedInjectType.Methods);
+            rAllMethodList.Sort((a, b) => a.Name.CompareTo(b.Name));
+            // 重载方法计数
+            var rMethodOverrideCountDict = new Dict<string, int>();
             for (int i = 0; i < rAllMethodList.Count; i++)
             {
-                InjectMethod(rAssembly, rNeedInjectType, rAllMethodList[i]);
+                if (!rMethodOverrideCountDict.TryGetValue(rAllMethodList[i].Name, out int nRef))
+                {
+                    rMethodOverrideCountDict.Add(rAllMethodList[i].Name, 0);
+                }
+                else
+                {
+                    rMethodOverrideCountDict[rAllMethodList[i].Name]++;
+                }
+                InjectMethod(rAssembly, rNeedInjectType, rAllMethodList[i], rMethodOverrideCountDict[rAllMethodList[i].Name]);
             }
         }
 
-        private static void InjectMethod(AssemblyDefinition rAssembly, TypeDefinition rNeedInjectType, MethodDefinition rMethodDef)
+        private static void InjectMethod(AssemblyDefinition rAssembly, TypeDefinition rNeedInjectType, MethodDefinition rMethodDef, int nRefCount)
         {
+            var rIgnoreAttr = rMethodDef.Resolve().CustomAttributes.SingleOrDefault(rAttr => rAttr.AttributeType.FullName.Equals("Knight.Core.HotfixIgnoreAttribute"));
+            if (rIgnoreAttr != null) return;
+
             var rMethodName = rMethodDef.Name.Trim('.');
             // 略过静态构造函数 
             if (rMethodName.Equals("cctor")) return;
 
-            var rFiledName = "__hotfix_" + rNeedInjectType.Name + "_" + rMethodName + "_enable__";
+            var rRefCountStr = nRefCount > 0 ? "_" + nRefCount : "";
+            var rFiledName = "__hotfix_" + rNeedInjectType.Name + "_" + rMethodName + rRefCountStr + "_enable__";
             
             // 添加Field标记变量
             if (ContainField(rNeedInjectType, rFiledName)) return;
@@ -75,18 +90,15 @@ namespace Knight.Core.Editor
             var rFirstIns = rMethodDef.Body.Instructions.First();
             var rWorker = rMethodDef.Body.GetILProcessor();
 
-            // bool _hotfix_Game_Test1_TestA_Enable__ = __hotfix_Game_Test1_TestA_Enable__;
+            // if (!_hotfix_Game_Test1_TestA_Enable__) False跳转到正常语句
             var rCurrentIns = InsertBefore(rWorker, rFirstIns, rWorker.Create(OpCodes.Nop));
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldsfld, rFieldDefinition));
-
-            // if (!_hotfix_Game_Test1_TestA_Enable__) False跳转到正常语句
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Brfalse_S, rFirstIns));
 
             // 插入Invoke方法
             var rInvokeMethodName = "InvokeStatic";
             var rHotfixInjectMethod = typeof(HotfixInject).GetMethod(rInvokeMethodName);
             var rHotfixInjectMethodRef = rAssembly.MainModule.ImportReference(rHotfixInjectMethod);
-            Debug.LogError(rNeedInjectType.Namespace + "." + rNeedInjectType.Name);
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldstr, rNeedInjectType.Namespace + ".Hotfix." + rNeedInjectType.Name));
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldstr, rMethodName));
 
@@ -94,16 +106,13 @@ namespace Knight.Core.Editor
             var nParamsCount = rMethodDef.Parameters.Count;
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldc_I4, rMethodDef.IsStatic ? nParamsCount : nParamsCount + 1));
             rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Newarr, rAssembly.MainModule.ImportReference(typeof(object))));
-
-            // 如果不是静态方法
-            if (!rMethodDef.IsStatic)
+            if (!rMethodDef.IsStatic)   // 第一个参数有可能是this
             {
                 rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Dup));
                 rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldc_I4, 0));
                 rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Ldarg_0));
                 rCurrentIns = InsertAfter(rWorker, rCurrentIns, rWorker.Create(OpCodes.Stelem_Ref));
             }
-
             for (int nIndex = 0; nIndex < nParamsCount; nIndex++)
             {
                 var nArgIndex = rMethodDef.IsStatic ? nIndex : nIndex + 1;
@@ -170,15 +179,6 @@ namespace Knight.Core.Editor
         {
             rWorker.InsertAfter(rTarget, rInstruction);
             return rInstruction;
-        }
-
-        private static OpCode GetLDArg(int nArgIndex)
-        {
-            if (nArgIndex == 0) return OpCodes.Ldarg_0;
-            else if (nArgIndex == 1) return OpCodes.Ldarg_1;
-            else if (nArgIndex == 2) return OpCodes.Ldarg_2;
-            else if (nArgIndex == 3) return OpCodes.Ldarg_3;
-            return OpCodes.Ldarg;
         }
 
         private static void ComputeOffsets(MethodBody rBody)

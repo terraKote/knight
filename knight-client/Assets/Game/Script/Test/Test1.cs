@@ -12,12 +12,18 @@ namespace Game
 
         public static void TestA() 
         {
-            if (__hotfix_Game_Test1_TestA_Enable__) 
+            if (__hotfix_Game_Test1_TestA_Enable__)
             {
                 HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA"); 
                 return;
             } 
-            Debug.LogError("I am TestA func");  
+            Debug.LogError("I am TestA func");
+        }
+
+        [HotfixIgnore]
+        public static void TestA(float p1)
+        {
+            Debug.LogError("I am TestA [arg0:p1] func"); 
         }
 
         public void TestB(int p1)
@@ -27,7 +33,7 @@ namespace Game
                 HotfixInject.InvokeStatic("Game.Hotfix.Test1", "TestA", this, p1);
                 return; 
             }
-            Debug.LogError("I am TestA func");  
+            Debug.LogError("I am TestA func");
         }
     }
 }
