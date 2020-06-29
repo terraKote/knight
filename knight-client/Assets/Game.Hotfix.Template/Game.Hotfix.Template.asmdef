@@ -1,0 +1,17 @@
+{
+    "name": "Game.Hotfix.Template",
+    "references": [
+        "GUID:e1d244a970cda444a992091b67c04bd7"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
