@@ -1,7 +1,8 @@
 {
     "name": "Game.Hotfix.Template",
     "references": [
-        "GUID:e1d244a970cda444a992091b67c04bd7"
+        "GUID:e1d244a970cda444a992091b67c04bd7",
+        "GUID:34ce72e8b9be69b408faa33297dd11c5"
     ],
     "includePlatforms": [
         "Editor"

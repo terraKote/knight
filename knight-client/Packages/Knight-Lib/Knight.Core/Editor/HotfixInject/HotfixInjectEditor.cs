@@ -14,6 +14,27 @@ namespace Knight.Core.Editor
     {
         private static string mDLLPath = "Library/ScriptAssemblies/Game.dll";
 
+        [MenuItem("Tools/Other/Hotfix Inject Code Generator")]
+        public static void InjectCodeGenerator()
+        {
+            var rInjectHotfixTypes = System.AppDomain.CurrentDomain.GetAssemblies()
+                        .Single(rAssembly => rAssembly.GetName().Name.Equals("Game"))?
+                        .GetTypes().Where(
+                            rType => rType != null &&
+                                     rType.BaseType != null &&
+                                     rType.CustomAttributes.Any(rAttr => rAttr.AttributeType.FullName.Equals("Knight.Core.HotfixAttribute")));
+
+            foreach (var rInjectType in rInjectHotfixTypes)
+            {
+                var rCodeGenerator = new CodeGenerator_HotfixInjectClass(rInjectType);
+                rCodeGenerator.WriteCode();
+                rCodeGenerator.Save();
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
         [MenuItem("Tools/Other/Hotfix Injector")]
         public static void Inject()
         {

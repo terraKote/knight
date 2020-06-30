@@ -10,6 +10,15 @@ namespace Game
     {
         public float P;
 
+        public Test1()
+        {
+        }
+
+        public Test1(float t1)
+        {
+            this.P = t1;
+        }
+
         public static void TestA() 
         {
             Debug.LogError("I am TestA func");
