@@ -1,49 +1,51 @@
 # knight
-支持一波996.ICU
+Support a wave of 996.ICU
 <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"></a>
 
-Knight是一个基于Unity引擎的游戏GamePlay框架，提供一些简单易用的游戏框架接口，目的让开发者更加专注于游戏内容的开发。
+Knight is a game GamePlay framework based on the Unity engine. It provides some easy-to-use game framework interfaces to allow developers to focus more on the development of game content.
 
-它包含了一个完整的资源管理模块（打包、下载、加载、版本管理），一个基于ILRuntime的C#热更模块，一个基于MVVM的UI框架（支持热更新）以及其他基础功能的支持。
+It contains a complete resource management module (package, download, load, version management), a C# hot update module based on ILRuntime, a UI framework based on MVVM (support hot update) and other basic functions.
 
-本框架将会持续更新，后期会不断修改和完善框架中的内容。目前使用的Unity版本为Unity2019.1.2f1。
-目前Master分支中将所有的模块全部移到Packages里面去了，并使用PackageManager来管理他们，以实现使用时可随时插拔。
-![knight的框架结构](https://github.com/winddyhe/knight/blob/master/Doc/res/images/img_1.png)
-### 更新日志（2019/5/13）
-* 更新Unity版本到Unity2019.1.0f2。
-* UI模块重构，ViewModel可以在UI模块间复用，纯数据信息在全局任意地方通过ViewModelManager访问。
-* UI模块重构，新增DatabindingConvert转换器，可以支持BindOneWay两个不同类型变量之间的转化。
-* UI模块重构，新增DatabindingRelated关联标签，支持ViewModel中一个变量改变了，其关联的其他变量也会随着一起更新到UI中。
-* UI模块重构，通过Mono.Ceil静态注入的方法，让ViewModel不用再手写this.PropChanged了。
-* UI模块重构，UI的资源加载方式变成同步加载，以避免界面闪烁。
-* Tweening模块重构，新增多段式的补间动画类，TweeningAnimator。
+The framework will continue to be updated, and the content in the framework will be revised and improved in the future. The current version of Unity is Unity2019.1.2f1.
+At present, all modules in the Master branch have been moved to Packages, and PackageManager is used to manage them, so that they can be plugged and unplugged at any time during use.
 
-### 更新日志（2019/3/31）
-* 框架中所有模块完全解耦，除了Knight.Core模块是必须的公共依赖模块之外，每个模块被分成了单个的Package包，可以自己选择性的使用这些框架模块。
-* ILRuntime更新到最新版本，支持Unity2018.3以上的版本，并且可以断点调试异步逻辑了。
-* 热更新逻辑放在Assets中进行管理，使用Unity自身进行编译并自动生成.bytes的DLL文件，无需另开vs再对热更工程进行手动编译了。
-* Assetbundle资源管理模块，支持Editor完全无需构建Assetbundle操作就可以直接运行游戏。
-* 暂时去掉ET服务器部分，但是客户端网络模块继续保留。
+![knight's frame structure](./Doc/res/images/img_1.png)
 
-### 运行游戏
-* 运行菜单Tools/Assetbundle/Assetbundle Build命令，构建Assetbundle资源包，如果勾上Tools/Develope Mode和Simulate Mode的话，就可以不用该步骤。
-* 打开Assets/Game/Scene/Game.unity场景，点Play运行游戏Demo。
+### Update log (2019/5/13)
+* Update the Unity version to Unity2019.1.0f2.
+* Refactoring of UI modules, ViewModel can be reused between UI modules, and pure data information can be accessed through ViewModelManager anywhere in the world.
+* UI module refactoring, adding DatabindingConvert converter, can support the conversion between BindOneWay two different types of variables.
+* Refactoring of the UI module, adding a DatabindingRelated associated tag, supporting a variable in the ViewModel is changed, and other associated variables will be updated to the UI along with it.
+* UI module refactoring, through Mono.Ceil static injection method, so that ViewModel does not need to write this.PropChanged by hand.
+* The UI module is refactored, and the resource loading method of the UI is changed to synchronous loading to avoid interface flicker.
+* The Tweening module has been refactored, adding a multi-stage tween animation class, TweeningAnimator.
 
-### 主要功能介绍
-* [框架结构](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84.md)
-* [Assetbundle资源模块](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/Assetbundle%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9D%97.md)
-* [ILRuntime热更新模块](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/ILRuntime%E7%83%AD%E6%9B%B4%E6%96%B0%E6%A8%A1%E5%9D%97.md)
+### Update log (2019/3/31)
+* All modules in the framework are completely decoupled. Except for the Knight.Core module, which is a necessary public dependency module, each module is divided into a single Package. You can use these framework modules selectively.
+* ILRuntime is updated to the latest version, supports Unity 2018.3 and above, and can debug asynchronous logic with breakpoints.
+* The hot update logic is managed in Assets, and Unity itself is used to compile and automatically generate a .bytes DLL file. There is no need to open a VS and manually compile the hot update project.
+* Assetbundle resource management module, which supports Editor to run the game directly without building an Assetbundle operation.
+* Temporarily remove the ET server part, but the client network module continues to remain.
+
+### run game
+* Run the Tools/Assetbundle/Assetbundle Build command in the menu to build the Assetbundle resource package. If you check Tools/Develope Mode and Simulate Mode, you can skip this step.
+* Open the Assets/Game/Scene/Game.unity scene and click Play to run the game Demo.
+
+### Main function introduction
+* [Framework](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84.md)
+* [Assetbundle resource module](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/Assetbundle%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9D%97.md)
+* [ILRuntime Hot Update Module](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/ILRuntime%E7%83%AD%E6%9B%B4%E6%96%B0%E6%A8%A1%E5%9D%97.md)
 * [WindJson](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/WindJson.md)
 * [WindUI](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/WindUI.md)
-* [Coroutine协程模块](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/Coroutine%E5%8D%8F%E7%A8%8B%E6%A8%A1%E5%9D%97.md)
-* [服务器集成](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%9B%86%E6%88%90.md)
-* [游戏中的配置](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE.md)
+* [Coroutine Coroutine Module](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/Coroutine%E5%8D%8F%E7%A8%8B%E6%A8%A1%E5%9D%97.md)
+* [Server Integration](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%9B%86%E6%88%90.md)
+* [Configuration in the game](https://github.com/winddyhe/knight/blob/master/Doc/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE.md)
 
-### 插件(感谢以下插件和框架对knight的底层功能的支持)
-* ILRuntime: 一个使用C#编写的解释运行C# IL代码的库，用来实现热更新机制，地址：https://github.com/Ourpalm/ILRuntime
-* ET: 一个包含了分布式的.Net Core服务器的双端unity游戏框架。knight用到了它的服务器部分。地址：https://github.com/egametang/ET
-* NaughtyAttributes: 一个脚本Inspector UI扩展库，通过Attribute标签来实现的Editor扩展。地址：https://github.com/dbrizov/NaughtyAttributes
+### Plugins (thanks to the following plugins and frameworks for supporting the underlying functions of knight)
+* ILRuntime: A library written in C# to explain and run C# IL code, used to implement the hot update mechanism, address: https://github.com/Ourpalm/ILRuntime
+* ET: A two-terminal unity game framework that includes a distributed .Net Core server. Knight uses its server part. Address: https://github.com/egametang/ET
+* NaughtyAttributes: A script Inspector UI extension library, Editor extensions implemented through Attribute tags. Address: https://github.com/dbrizov/NaughtyAttributes
 
-### 联系方式
-* Email: hgplan@126.com 
-* QQ群: 651543479
+### Contact information
+* Email: hgplan@126.com
+* QQ group: 651543479
