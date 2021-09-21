@@ -12,7 +12,7 @@ using UnityEditor;
 namespace Knight.Framework.AssetBundles.Editor
 {
     /// <summary>
-    /// 资源打包的辅助类
+    /// Auxiliary class for resource packaging
     /// </summary>
     public class ABBuilder : TSingleton<ABBuilder>
     {
@@ -24,34 +24,34 @@ namespace Knight.Framework.AssetBundles.Editor
             IOS         = BuildTarget.iOS,                      //IOS
             Android     = BuildTarget.Android,                  //Android
         };
-        
+
         /// <summary>
-        /// 输出的Assetbundle的目录
+        /// The directory of the output Assetbundle
         /// </summary>
         public static string AssetbundlePath        = "Assets/../Assetbundles";
 
         /// <summary>
-        /// 资源包配置文件路径
+        /// Resource package configuration file path
         /// </summary>
         public static string ABEntryConfigPath      = "Assets/Game.Editor/Editor/Assetbundle_Settings.json";
-        
+
         /// <summary>
-        /// 资源包的前缀
+        /// Resource pack prefix
         /// </summary>
         public static string ABPrefixRoot           = "game/";
 
         /// <summary>
-        /// 资源路径前缀
+        /// Resource path prefix
         /// </summary>
         public static string ABAssetPrefixRoot      = "Assets/Game/GameAsset/";
 
         /// <summary>
-        /// 当前工程的平台
+        /// The platform of the current project
         /// </summary>
         public BuildPlatform CurBuildPlatform       = BuildPlatform.Windows;
-    
+
         /// <summary>
-        /// 资源项的配置缓存
+        /// Configuration cache of resource items
         /// </summary>
         public List<ABEntry> ABEntries;
     
@@ -59,25 +59,25 @@ namespace Knight.Framework.AssetBundles.Editor
         {
             CurBuildPlatform = GetCurrentBuildPlatform();
         }
-    
+
         /// <summary>
-        /// 得到Assetbundle的路径前缀，根据不同的平台来选择
+        /// Get the path prefix of Assetbundle, choose according to different platforms
         /// </summary>
         public string GetPathPrefix_Assetbundle()
         {
             return Path.Combine(AssetbundlePath, GetManifestName()).Replace("\\", "/");
         }
-    
+
         /// <summary>
-        /// 得到Manifest的名字
+        /// Get the name of the Manifest
         /// </summary>
         public string GetManifestName()
         {
             return GetCurrentBuildPlatformName() + "_Assetbundles";
         }
-    
+
         /// <summary>
-        /// 打包资源
+        /// Package resources
         /// </summary>
         public void BuildAssetbundles(BuildAssetBundleOptions rOptions)
         {
@@ -90,29 +90,29 @@ namespace Knight.Framework.AssetBundles.Editor
             var rOldABVersion = ABVersionEditor.Load(rABPath);
             var rOldMD5 = ABVersionEditor.GetMD5ForABVersion(rABPath);
 
-            // 开始打包
+            // Start packing
             var rNewABManifest = BuildPipeline.BuildAssetBundles(rABPath, rABBList.ToArray(), rOptions, (BuildTarget)CurBuildPlatform);
             if (rNewABManifest == null)
             {
                 Debug.Log("BuildPipeline.BuildAssetBundles() return null, " + rABPath);
                 return;
             }
-            // 生成新的版本文件
+            // Generate a new version file
             var rNewABVersion = ABVersionEditor.CreateVersion(rABPath, rOldABVersion, rNewABManifest);
             rNewABVersion.SaveInEditor(rABPath);
 
             var rNewMD5 = ABVersionEditor.GetMD5ForABVersion(rABPath);
 
-            // 保存历史的版本记录
+            // Save historical version records
             if (!string.IsNullOrEmpty(rOldMD5) && !rOldMD5.Equals(rNewMD5))
             {
                 rOldABVersion.SaveHistory(rABPath);
             }
-            Debug.Log("资源打包完成！");
+            Debug.Log("Resource packaging is complete!");
         }
 
         /// <summary>
-        /// 生成AB包的配置项
+        /// Configuration items for generating AB package
         /// </summary>
         public List<ABEntry> GenerateABEntries()
         {
@@ -120,19 +120,19 @@ namespace Knight.Framework.AssetBundles.Editor
             if (rABEntryConfig == null) return new List<ABEntry>();
             return rABEntryConfig.ABEntries;
         }
-    
+
         /// <summary>
-        /// 构建需要打包的资源的路径、包名以及包的后缀
+        /// Build the path, package name, and package suffix of the resources that need to be packaged
         /// </summary>
         public List<AssetBundleBuild> AssetbundleEntry_Building()
         {
             this.ABEntries = this.GenerateABEntries();
             if (ABEntries == null) ABEntries = new List<ABEntry>();
 
-            // 预处理图集配置
+            // Preprocessing atlas configuration
             ABUIAtlasTools.GenerateAtlas();
 
-            // 资源预处理
+            // Resource preprocessing
             List<ABEntryProcessor> rABEntryProcessors = new List<ABEntryProcessor>();
             foreach (var rEntry in ABEntries)
             {
@@ -141,7 +141,7 @@ namespace Knight.Framework.AssetBundles.Editor
                 rProcessor.ProcessAssetBundleLabel();
                 rABEntryProcessors.Add(rProcessor);
             }
-            // 打包
+            // Pack
             List<AssetBundleBuild> rABBList = new List<AssetBundleBuild>();
             foreach (var rProcessor in rABEntryProcessors)
             {
@@ -155,7 +155,7 @@ namespace Knight.Framework.AssetBundles.Editor
             this.ABEntries = this.GenerateABEntries();
             if (ABEntries == null) ABEntries = new List<ABEntry>();
 
-            // 资源预处理
+            // Resource preprocessing
             List<ABEntryProcessor> rABEntryProcessors = new List<ABEntryProcessor>();
             foreach (var rEntry in ABEntries)
             {
