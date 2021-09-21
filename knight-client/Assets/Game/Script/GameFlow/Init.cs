@@ -16,7 +16,7 @@ using UnityFx.Async;
 namespace Game
 {
     /// <summary>
-    /// 游戏初始化
+    /// Game initialization
     /// </summary>
     internal class Init : MonoBehaviour
     {
@@ -25,13 +25,13 @@ namespace Game
 
         async void Start()
         {
-            //限帧
+            // Frame limit
             Application.targetFrameRate = 30;
 
-            // 初始化事件管理器
+            // Initialize the event manager
             EventManager.Instance.Initialize();
 
-            // 初始化协程管理器
+            // Initialize the coroutine manager
             CoroutineManager.Instance.Initialize();
 
             TypeResolveManager.Instance.Initialize();
@@ -39,41 +39,41 @@ namespace Game
             TypeResolveManager.Instance.AddAssembly("Game");
             TypeResolveManager.Instance.AddAssembly("Game.Hotfix" , true);
 
-            // 初始化热更新模块
+            // Initialize the hot update module
             HotfixRegister.Register();
             HotfixManager.Instance.Initialize();
 
-            // 初始化UI模块
+            // Initialize the UI module
             UIRoot.Instance.Initialize();
 
-            // 初始化加载进度条
+            // Initialize loading progress bar
             GameLoading.Instance.LoadingView = LoadingView_Knight.Instance;
-            GameLoading.Instance.StartLoading(0.5f, "游戏初始化阶段，开始加载资源...");
+            GameLoading.Instance.StartLoading(0.5f, "In the initial stage of the game, start loading resources...");
 
-            //异步初始化代码
+            // Asynchronous initialization code
             await Start_Async();
         }
 
 
         private async Task Start_Async()
         {
-            // 平台初始化
+            // Platform initialization
             await ABPlatform.Instance.Initialize();
 
-            // 资源下载模块初始化
+            // Resource download module initialization
             await ABUpdater.Instance.Initialize();
 
-            // 初始化资源加载模块
+            // Initialize the resource loading module
             AssetLoader.Instance = new ABLoader();
             AssetLoader.Instance.Initialize();
 
             GameLoading.Instance.Hide();
-            GameLoading.Instance.StartLoading(1.0f, "游戏初始化阶段，开始加载资源...");
+            GameLoading.Instance.StartLoading(1.0f, "In the initial stage of the game, start loading resources...");
 
-            // 加载热更新代码资源
+            // Load hot update code resources
             await HotfixManager.Instance.Load(this.HotfixABPath, this.HotfixModule);
 
-            // 开始热更新端的游戏主逻辑
+            // Start the main game logic of the hot update terminal
             await HotfixGameMainLogic.Instance.Initialize();
 
             Debug.Log("End init..");
