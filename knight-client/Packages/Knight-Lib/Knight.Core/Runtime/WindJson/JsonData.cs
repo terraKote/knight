@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Reflection;
+using System.Globalization;
 
 namespace Knight.Core.WindJson
 {
@@ -181,10 +182,16 @@ namespace Knight.Core.WindJson
 
         public float CastFloat(string value)
         {
-            float re = 0;
-            if (float.TryParse(value, out re)) return re;
-            Debug.LogError(string.Format("Value: {0} is not int type.", value));
-            return re;
+            NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+            CultureInfo provider = CultureInfo.InvariantCulture;
+
+            if (float.TryParse(value, style, provider, out float floatResult))
+            {
+                return floatResult;
+            }
+
+            Debug.LogError(string.Format("Value: {0} is not float type.", value));
+            return 0.0f;
         }
 
         public double CastDouble(string value)
