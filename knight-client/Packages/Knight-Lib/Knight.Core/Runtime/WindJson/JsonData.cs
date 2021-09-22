@@ -12,35 +12,35 @@ namespace Knight.Core.WindJson
 {
     public class JsonNode
     {
-        public virtual string       Value                                   { get; set; }
-        public virtual string       Key                                     { get; set; }
-        public virtual int          Count                                   { get; private set; }
+        public virtual string Value { get; set; }
+        public virtual string Key { get; set; }
+        public virtual int Count { get; private set; }
 
-        public virtual JsonNode     this[int nIndex]                        { get { return null; } set { } }
-        public virtual JsonNode     this[string rKey]                       { get { return null; } set { } }
-        public virtual JsonNode     Node                                    { get; set; }
-        
-        public virtual void         Add(string rKey, JsonNode rItem)        {}
-        public virtual void         Add(JsonNode rItem)                     {}
+        public virtual JsonNode this[int nIndex] { get { return null; } set { } }
+        public virtual JsonNode this[string rKey] { get { return null; } set { } }
+        public virtual JsonNode Node { get; set; }
 
-        public virtual void         AddHead(string rKey, JsonNode rItem)    {}
-        public virtual void         AddHead(JsonNode rItem)                 {}
+        public virtual void Add(string rKey, JsonNode rItem) { }
+        public virtual void Add(JsonNode rItem) { }
 
-        public virtual JsonNode     Remove(string rKey)                     { return null;  }
-        public virtual JsonNode     Remove(int nIndex)                      { return null;  }
-        public virtual JsonNode     Remove(JsonNode rNode)                  { return rNode; }
+        public virtual void AddHead(string rKey, JsonNode rItem) { }
+        public virtual void AddHead(JsonNode rItem) { }
 
-        public virtual List<string> Keys                                    { get { return new List<string>(); } }
-        public virtual bool         ContainsKey(string rKey)                { return false; }
+        public virtual JsonNode Remove(string rKey) { return null; }
+        public virtual JsonNode Remove(int nIndex) { return null; }
+        public virtual JsonNode Remove(JsonNode rNode) { return rNode; }
 
-        public override string      ToString()                              { return base.ToString();    }
-        public virtual object       ToObject(Type rType)                    { return null;               }
-        public T                    ToObject<T>()                           { return (T)ToObject(typeof(T));              }
-        public List<T>              ToList<T>()                             { return (List<T>)ToObject(typeof(List<T>));  }
-        public T[]                  ToArray<T>()                            { return (T[])ToObject(typeof(T[]));          }
+        public virtual List<string> Keys { get { return new List<string>(); } }
+        public virtual bool ContainsKey(string rKey) { return false; }
 
-        public virtual object       ToList(Type rListType, Type rElemType)  { return null; }
-        public virtual object       ToDict(Type rDictType, Type rKeyType, Type rValueType) { return null; }
+        public override string ToString() { return base.ToString(); }
+        public virtual object ToObject(Type rType) { return null; }
+        public T ToObject<T>() { return (T)ToObject(typeof(T)); }
+        public List<T> ToList<T>() { return (List<T>)ToObject(typeof(List<T>)); }
+        public T[] ToArray<T>() { return (T[])ToObject(typeof(T[])); }
+
+        public virtual object ToList(Type rListType, Type rElemType) { return null; }
+        public virtual object ToDict(Type rDictType, Type rKeyType, Type rValueType) { return null; }
 
         public virtual bool TryGetValue(string key, out JsonNode value)
         {
@@ -48,24 +48,24 @@ namespace Knight.Core.WindJson
             return false;
         }
 
-        public Dict<TKey, TValue> ToDict<TKey, TValue>() 
-        { 
-            return (Dict<TKey, TValue>)ToObject(typeof(Dict<TKey, TValue>));  
+        public Dict<TKey, TValue> ToDict<TKey, TValue>()
+        {
+            return (Dict<TKey, TValue>)ToObject(typeof(Dict<TKey, TValue>));
         }
-        public Dictionary<TKey, TValue> ToDictionary<TKey, TValue>() 
+        public Dictionary<TKey, TValue> ToDictionary<TKey, TValue>()
         {
             return (Dictionary<TKey, TValue>)ToObject(typeof(Dictionary<TKey, TValue>));
         }
 
         public virtual byte AsByte
         {
-            get { return CastByte(Value);   }
+            get { return CastByte(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual short AsShort
         {
-            get { return CastShort(Value);  }
+            get { return CastShort(Value); }
             set { Value = value.ToString(); }
         }
 
@@ -77,31 +77,31 @@ namespace Knight.Core.WindJson
 
         public virtual int AsInt
         {
-            get { return CastInt(Value);    }
+            get { return CastInt(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual uint AsUint
         {
-            get { return CastUInt(Value);   }
+            get { return CastUInt(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual long AsLong
         {
-            get { return CastLong(Value);   }
+            get { return CastLong(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual ulong AsUlong
         {
-            get { return CastULong(Value);  }
+            get { return CastULong(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual float AsFloat
         {
-            get { return CastFloat(Value);  }
+            get { return CastFloat(Value); }
             set { Value = value.ToString(); }
         }
 
@@ -113,16 +113,16 @@ namespace Knight.Core.WindJson
 
         public virtual bool AsBool
         {
-            get { return CastBool(Value);   }
+            get { return CastBool(Value); }
             set { Value = value.ToString(); }
         }
 
         public virtual string AsString
         {
-            get { return Value;  }
+            get { return Value; }
             set { Value = value; }
         }
-        
+
         public byte CastByte(string value)
         {
             byte re = 0;
@@ -205,11 +205,11 @@ namespace Knight.Core.WindJson
 
         public object CastEnum(Type type, string value)
         {
-            //如果enum是数字，那么返回数字
+            // If enum is a number, then return a number
             int re = 0;
             if (int.TryParse(value, out re)) return re;
 
-            //如果不是数字，而是字符串，直接转换为enum
+            // If it is not a number, but a string, it is directly converted to enum
             type = ITypeRedirect.GetRedirectType(type);
             return Enum.Parse(type, value, true);
         }
@@ -223,7 +223,7 @@ namespace Knight.Core.WindJson
         {
             get
             {
-                if (nIndex >= 0 && nIndex < Count)  return list[nIndex];
+                if (nIndex >= 0 && nIndex < Count) return list[nIndex];
                 Debug.LogError(string.Format("Index out of size limit, Index = {0}, Count = {1}", nIndex, Count));
                 return null;
             }
@@ -281,7 +281,7 @@ namespace Knight.Core.WindJson
                 jsonStr += list[i].ToString();
                 jsonStr += ",";
             }
-			jsonStr += (list.Count == 0 || list[Count-1] == null) ? "" : list[list.Count - 1].ToString();
+            jsonStr += (list.Count == 0 || list[Count - 1] == null) ? "" : list[list.Count - 1].ToString();
             jsonStr += "]";
             return jsonStr;
         }
@@ -300,7 +300,7 @@ namespace Knight.Core.WindJson
                 }
                 return rObject;
             }
-            else if (rType.IsGenericType && typeof(IList).IsAssignableFrom(rType.GetGenericTypeDefinition()))  //是否为泛型
+            else if (rType.IsGenericType && typeof(IList).IsAssignableFrom(rType.GetGenericTypeDefinition()))  // Is it generic
             {
                 IList rObject = (IList)Activator.CreateInstance(rType);
                 Type[] rArgsTypes = rType.GetGenericArguments();
@@ -328,7 +328,7 @@ namespace Knight.Core.WindJson
                 }
                 return rObject;
             }
-            else if (rCLRType.IsGenericType && typeof(IList).IsAssignableFrom(rCLRType.GetGenericTypeDefinition()))  //是否为泛型
+            else if (rCLRType.IsGenericType && typeof(IList).IsAssignableFrom(rCLRType.GetGenericTypeDefinition()))  // Is it generic
             {
                 IList rObject = (IList)Activator.CreateInstance(rListType);
                 Type[] rArgsTypes = rCLRType.GetGenericArguments();
@@ -473,7 +473,7 @@ namespace Knight.Core.WindJson
             rType = ITypeRedirect.GetRedirectType(rType);
             if (rType.IsGenericType && typeof(IDictionary).IsAssignableFrom(rType.GetGenericTypeDefinition()))
             {
-                // 特殊处理IDictionary<,>类型
+                // Special handling IDictionary<,> type
                 IDictionary rObject = (IDictionary)ReflectionAssist.CreateInstance(rType, ReflectionAssist.flags_all);
                 Type[] rArgsTypes = rType.GetGenericArguments();
                 foreach (var rItem in this.dict)
@@ -486,7 +486,7 @@ namespace Knight.Core.WindJson
             }
             else if (rType.IsGenericType && typeof(IDict).IsAssignableFrom(rType.GetGenericTypeDefinition()))
             {
-                // 特殊处理IDict<,>的类型
+                // Special handling IDict<,> type
                 IDict rObject = (IDict)ReflectionAssist.CreateInstance(rType, ReflectionAssist.flags_all);
                 Type[] rArgsTypes = rType.GetGenericArguments();
                 foreach (var rItem in this.dict)
@@ -532,7 +532,7 @@ namespace Knight.Core.WindJson
         }
 
         /// <summary>
-        /// 转化Key
+        /// Conversion Key
         /// </summary>
         private object GetKey_ByString(Type rKeyType, string rKeyStr)
         {
@@ -557,7 +557,7 @@ namespace Knight.Core.WindJson
             rDictType = ITypeRedirect.GetRedirectType(rDictType);
             if (rDictType.IsGenericType && typeof(IDictionary).IsAssignableFrom(rDictType.GetGenericTypeDefinition()))
             {
-                // 特殊处理IDictionary<,>类型
+                // Special handling IDictionary<,> type
                 IDictionary rObject = (IDictionary)ReflectionAssist.CreateInstance(rDictType, BindingFlags.Default);
                 foreach (var rItem in this.dict)
                 {
@@ -569,7 +569,7 @@ namespace Knight.Core.WindJson
             }
             else if (rDictType.IsGenericType && typeof(IDict).IsAssignableFrom(rDictType.GetGenericTypeDefinition()))
             {
-                // 特殊处理IDict<,>的类型
+                // Special handling IDict<,> type
                 IDict rObject = (IDict)ReflectionAssist.CreateInstance(rDictType, BindingFlags.Default);
                 foreach (var rItem in this.dict)
                 {
@@ -586,7 +586,7 @@ namespace Knight.Core.WindJson
     public class JsonData : JsonNode
     {
         private string value;
-        private Type   type;
+        private Type type;
 
         public JsonData(string v)
         {
@@ -656,7 +656,7 @@ namespace Knight.Core.WindJson
 
         public override string Value
         {
-            get { return this.value;  }
+            get { return this.value; }
             set { this.value = value; }
         }
 
@@ -740,7 +740,7 @@ namespace Knight.Core.WindJson
                     return "";
                 return this.value;
             }
-            Debug.LogErrorFormat("{0}不是基础类型，不能解析成为JsonData !", this.value);
+            Debug.LogErrorFormat("{0} is not a basic type and cannot be parsed as JsonData!", this.value);
             return this.value.Trim('"');
         }
     }
